@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DefenseTimoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Classes">
+          <Key>
+            <PropertyRef Name="CodeClasse" />
+          </Key>
+          <Property Name="CodeClasse" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Classe" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Eleves">
+          <Key>
+            <PropertyRef Name="MatriculeEl" />
+          </Key>
+          <Property Name="MatriculeEl" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="20" />
+          <Property Name="PostNom" Type="varchar" MaxLength="20" />
+          <Property Name="Prenom" Type="varchar" MaxLength="20" />
+          <Property Name="CodeClasse" Type="varchar" MaxLength="5" />
+          <Property Name="DateNaissance" Type="datetime" />
+          <Property Name="Sexe" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Frais">
+          <Key>
+            <PropertyRef Name="NumFrais" />
+          </Key>
+          <Property Name="NumFrais" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="NomFrais" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Mois">
+          <Key>
+            <PropertyRef Name="CodeMois" />
+          </Key>
+          <Property Name="CodeMois" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="LibelleMois" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="Payes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MatriculeEl" Type="varchar" MaxLength="10" />
+          <Property Name="NumFrais" Type="varchar" MaxLength="5" />
+          <Property Name="Montant" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DatePaye" Type="datetime" />
+          <Property Name="CodeMois" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="Recus">
+          <Key>
+            <PropertyRef Name="NumRecu" />
+          </Key>
+          <Property Name="NumRecu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Motif" Type="varchar" MaxLength="100" />
+          <Property Name="DateRecu" Type="datetime" />
+          <Property Name="MatriculeEl" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Utilisateurs">
+          <Key>
+            <PropertyRef Name="Identifiant" />
+          </Key>
+          <Property Name="Identifiant" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Mdp" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Eleves_Classes">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Eleves" Type="Self.Eleves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="CodeClasse" />
+            </Principal>
+            <Dependent Role="Eleves">
+              <PropertyRef Name="CodeClasse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payes_Eleves">
+          <End Role="Eleves" Type="Self.Eleves" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payes" Type="Self.Payes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eleves">
+              <PropertyRef Name="MatriculeEl" />
+            </Principal>
+            <Dependent Role="Payes">
+              <PropertyRef Name="MatriculeEl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Payes_Frais">
+          <End Role="Frais" Type="Self.Frais" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payes" Type="Self.Payes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Frais">
+              <PropertyRef Name="NumFrais" />
+            </Principal>
+            <Dependent Role="Payes">
+              <PropertyRef Name="NumFrais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payes_Mois">
+          <End Role="Mois" Type="Self.Mois" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payes" Type="Self.Payes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mois">
+              <PropertyRef Name="CodeMois" />
+            </Principal>
+            <Dependent Role="Payes">
+              <PropertyRef Name="CodeMois" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Recus_Eleves">
+          <End Role="Eleves" Type="Self.Eleves" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Recus" Type="Self.Recus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eleves">
+              <PropertyRef Name="MatriculeEl" />
+            </Principal>
+            <Dependent Role="Recus">
+              <PropertyRef Name="MatriculeEl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DefenseTimoModelStoreContainer">
+          <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Eleves" EntityType="Self.Eleves" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Frais" EntityType="Self.Frais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mois" EntityType="Self.Mois" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payes" EntityType="Self.Payes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recus" EntityType="Self.Recus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Eleves_Classes" Association="Self.FK_Eleves_Classes">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Eleves" EntitySet="Eleves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payes_Eleves" Association="Self.FK_Payes_Eleves">
+            <End Role="Eleves" EntitySet="Eleves" />
+            <End Role="Payes" EntitySet="Payes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Payes_Frais" Association="Self.Fk_Payes_Frais">
+            <End Role="Frais" EntitySet="Frais" />
+            <End Role="Payes" EntitySet="Payes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payes_Mois" Association="Self.FK_Payes_Mois">
+            <End Role="Mois" EntitySet="Mois" />
+            <End Role="Payes" EntitySet="Payes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Recus_Eleves" Association="Self.Fk_Recus_Eleves">
+            <End Role="Eleves" EntitySet="Eleves" />
+            <End Role="Recus" EntitySet="Recus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DefenseTimoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="CodeClasse" />
+          </Key>
+          <Property Name="CodeClasse" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Classe" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Eleves" Relationship="Self.FK_Eleves_Classes" FromRole="Classes" ToRole="Eleves" />
+        </EntityType>
+        <EntityType Name="Eleve">
+          <Key>
+            <PropertyRef Name="MatriculeEl" />
+          </Key>
+          <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PostNom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CodeClasse" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DateNaissance" Type="DateTime" Precision="3" />
+          <Property Name="Sexe" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_Eleves_Classes" FromRole="Eleves" ToRole="Classes" />
+          <NavigationProperty Name="Payes" Relationship="Self.FK_Payes_Eleves" FromRole="Eleves" ToRole="Payes" />
+          <NavigationProperty Name="Recus" Relationship="Self.Fk_Recus_Eleves" FromRole="Eleves" ToRole="Recus" />
+        </EntityType>
+        <EntityType Name="Frai">
+          <Key>
+            <PropertyRef Name="NumFrais" />
+          </Key>
+          <Property Name="NumFrais" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NomFrais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Payes" Relationship="Self.Fk_Payes_Frais" FromRole="Frais" ToRole="Payes" />
+        </EntityType>
+        <EntityType Name="Mois">
+          <Key>
+            <PropertyRef Name="CodeMois" />
+          </Key>
+          <Property Name="CodeMois" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LibelleMois" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Payes" Relationship="Self.FK_Payes_Mois" FromRole="Mois" ToRole="Payes" />
+        </EntityType>
+        <EntityType Name="Paye">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumFrais" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Montant" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DatePaye" Type="DateTime" Precision="3" />
+          <Property Name="CodeMois" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Eleve" Relationship="Self.FK_Payes_Eleves" FromRole="Payes" ToRole="Eleves" />
+          <NavigationProperty Name="Frai" Relationship="Self.Fk_Payes_Frais" FromRole="Payes" ToRole="Frais" />
+          <NavigationProperty Name="Mois1" Relationship="Self.FK_Payes_Mois" FromRole="Payes" ToRole="Mois" />
+        </EntityType>
+        <EntityType Name="Recu">
+          <Key>
+            <PropertyRef Name="NumRecu" />
+          </Key>
+          <Property Name="NumRecu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Motif" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateRecu" Type="DateTime" Precision="3" />
+          <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Eleve" Relationship="Self.Fk_Recus_Eleves" FromRole="Recus" ToRole="Eleves" />
+        </EntityType>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="Identifiant" />
+          </Key>
+          <Property Name="Identifiant" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mdp" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewLignePayement">
+          <Key>
+            <PropertyRef Name="MatriculeEl" />
+          </Key>
+          <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PostNom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Classe" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DatePaye" Type="DateTime" Precision="3" />
+          <Property Name="Montant" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LibelleMois" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewTotalMoisParEleveTou">
+          <Key>
+            <PropertyRef Name="MatriculeEl" />
+          </Key>
+          <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CodeClasse" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ToTal" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="ViewTotalParEleve">
+          <Key>
+            <PropertyRef Name="MatriculeEl" />
+          </Key>
+          <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ToTal" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Eleves_Classes">
+          <End Role="Classes" Type="Self.Class" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Eleves" Type="Self.Eleve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="CodeClasse" />
+            </Principal>
+            <Dependent Role="Eleves">
+              <PropertyRef Name="CodeClasse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payes_Eleves">
+          <End Role="Eleves" Type="Self.Eleve" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payes" Type="Self.Paye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eleves">
+              <PropertyRef Name="MatriculeEl" />
+            </Principal>
+            <Dependent Role="Payes">
+              <PropertyRef Name="MatriculeEl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Recus_Eleves">
+          <End Role="Eleves" Type="Self.Eleve" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Recus" Type="Self.Recu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eleves">
+              <PropertyRef Name="MatriculeEl" />
+            </Principal>
+            <Dependent Role="Recus">
+              <PropertyRef Name="MatriculeEl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Payes_Frais">
+          <End Role="Frais" Type="Self.Frai" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payes" Type="Self.Paye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Frais">
+              <PropertyRef Name="NumFrais" />
+            </Principal>
+            <Dependent Role="Payes">
+              <PropertyRef Name="NumFrais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payes_Mois">
+          <End Role="Mois" Type="Self.Mois" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payes" Type="Self.Paye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mois">
+              <PropertyRef Name="CodeMois" />
+            </Principal>
+            <Dependent Role="Payes">
+              <PropertyRef Name="CodeMois" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DefenseTimoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Classes" EntityType="Self.Class" />
+          <EntitySet Name="Eleves" EntityType="Self.Eleve" />
+          <EntitySet Name="Frais" EntityType="Self.Frai" />
+          <EntitySet Name="Mois" EntityType="Self.Mois" />
+          <EntitySet Name="Payes" EntityType="Self.Paye" />
+          <EntitySet Name="Recus" EntityType="Self.Recu" />
+          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateur" />
+          <EntitySet Name="ViewLignePayements" EntityType="Self.ViewLignePayement" />
+          <EntitySet Name="ViewTotalMoisParEleveTous" EntityType="Self.ViewTotalMoisParEleveTou" />
+          <EntitySet Name="ViewTotalParEleves" EntityType="Self.ViewTotalParEleve" />
+          <AssociationSet Name="FK_Eleves_Classes" Association="Self.FK_Eleves_Classes">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Eleves" EntitySet="Eleves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payes_Eleves" Association="Self.FK_Payes_Eleves">
+            <End Role="Eleves" EntitySet="Eleves" />
+            <End Role="Payes" EntitySet="Payes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Recus_Eleves" Association="Self.Fk_Recus_Eleves">
+            <End Role="Eleves" EntitySet="Eleves" />
+            <End Role="Recus" EntitySet="Recus" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Payes_Frais" Association="Self.Fk_Payes_Frais">
+            <End Role="Frais" EntitySet="Frais" />
+            <End Role="Payes" EntitySet="Payes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payes_Mois" Association="Self.FK_Payes_Mois">
+            <End Role="Mois" EntitySet="Mois" />
+            <End Role="Payes" EntitySet="Payes" />
+          </AssociationSet>
+          <FunctionImport Name="ProcLignePayement" ReturnType="Collection(DefenseTimoModel.ProcLignePayement_Result)" />
+          <FunctionImport Name="ProcTotalMoisParEleveTous" ReturnType="Collection(DefenseTimoModel.ProcTotalMoisParEleveTous_Result)" />
+          <FunctionImport Name="ProcNumeroRecu" ReturnType="Collection(Int32)" />
+        </EntityContainer>
+        <ComplexType Name="ProcLignePayement_Result">
+          <Property Type="String" Name="MatriculeEl" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nom" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PostNom" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Prenom" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Classe" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="DatePaye" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Montant" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="LibelleMois" Nullable="true" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="ProcTotalMoisParEleveTous_Result">
+          <Property Type="String" Name="MatriculeEl" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nom" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodeClasse" Nullable="true" MaxLength="5" />
+          <Property Type="Decimal" Name="ToTal" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DefenseTimoModelStoreContainer" CdmEntityContainer="DefenseTimoEntities">
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Class">
+              <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="CodeClasse" ColumnName="CodeClasse" />
+                <ScalarProperty Name="Classe" ColumnName="Classe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eleves">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Eleve">
+              <MappingFragment StoreEntitySet="Eleves">
+                <ScalarProperty Name="MatriculeEl" ColumnName="MatriculeEl" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="PostNom" ColumnName="PostNom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="CodeClasse" ColumnName="CodeClasse" />
+                <ScalarProperty Name="DateNaissance" ColumnName="DateNaissance" />
+                <ScalarProperty Name="Sexe" ColumnName="Sexe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Frais">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Frai">
+              <MappingFragment StoreEntitySet="Frais">
+                <ScalarProperty Name="NumFrais" ColumnName="NumFrais" />
+                <ScalarProperty Name="NomFrais" ColumnName="NomFrais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mois">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Mois">
+              <MappingFragment StoreEntitySet="Mois">
+                <ScalarProperty Name="CodeMois" ColumnName="CodeMois" />
+                <ScalarProperty Name="LibelleMois" ColumnName="LibelleMois" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payes">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Paye">
+              <MappingFragment StoreEntitySet="Payes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MatriculeEl" ColumnName="MatriculeEl" />
+                <ScalarProperty Name="NumFrais" ColumnName="NumFrais" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="DatePaye" ColumnName="DatePaye" />
+                <ScalarProperty Name="CodeMois" ColumnName="CodeMois" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recus">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Recu">
+              <MappingFragment StoreEntitySet="Recus">
+                <ScalarProperty Name="NumRecu" ColumnName="NumRecu" />
+                <ScalarProperty Name="Motif" ColumnName="Motif" />
+                <ScalarProperty Name="DateRecu" ColumnName="DateRecu" />
+                <ScalarProperty Name="MatriculeEl" ColumnName="MatriculeEl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateurs">
+            <EntityTypeMapping TypeName="DefenseTimoModel.Utilisateur">
+              <MappingFragment StoreEntitySet="Utilisateurs">
+                <ScalarProperty Name="Identifiant" ColumnName="Identifiant" />
+                <ScalarProperty Name="Mdp" ColumnName="Mdp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

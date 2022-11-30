@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DefenseTimoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Classes">
+    <Key>
+      <PropertyRef Name="CodeClasse" />
+    </Key>
+    <Property Name="CodeClasse" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="Classe" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Eleves">
+    <Key>
+      <PropertyRef Name="MatriculeEl" />
+    </Key>
+    <Property Name="MatriculeEl" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Nom" Type="varchar" MaxLength="20" />
+    <Property Name="PostNom" Type="varchar" MaxLength="20" />
+    <Property Name="Prenom" Type="varchar" MaxLength="20" />
+    <Property Name="CodeClasse" Type="varchar" MaxLength="5" />
+    <Property Name="DateNaissance" Type="datetime" />
+    <Property Name="Sexe" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="Frais">
+    <Key>
+      <PropertyRef Name="NumFrais" />
+    </Key>
+    <Property Name="NumFrais" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="NomFrais" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Mois">
+    <Key>
+      <PropertyRef Name="CodeMois" />
+    </Key>
+    <Property Name="CodeMois" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="LibelleMois" Type="varchar" MaxLength="8" />
+  </EntityType>
+  <EntityType Name="Payes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MatriculeEl" Type="varchar" MaxLength="10" />
+    <Property Name="NumFrais" Type="varchar" MaxLength="5" />
+    <Property Name="Montant" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DatePaye" Type="datetime" />
+    <Property Name="CodeMois" Type="varchar" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="Recus">
+    <Key>
+      <PropertyRef Name="NumRecu" />
+    </Key>
+    <Property Name="NumRecu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Motif" Type="varchar" MaxLength="100" />
+    <Property Name="DateRecu" Type="datetime" />
+    <Property Name="MatriculeEl" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Utilisateurs">
+    <Key>
+      <PropertyRef Name="Identifiant" />
+    </Key>
+    <Property Name="Identifiant" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Mdp" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_Eleves_Classes">
+    <End Role="Classes" Type="Self.Classes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Eleves" Type="Self.Eleves" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="CodeClasse" />
+      </Principal>
+      <Dependent Role="Eleves">
+        <PropertyRef Name="CodeClasse" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payes_Eleves">
+    <End Role="Eleves" Type="Self.Eleves" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payes" Type="Self.Payes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleves">
+        <PropertyRef Name="MatriculeEl" />
+      </Principal>
+      <Dependent Role="Payes">
+        <PropertyRef Name="MatriculeEl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Payes_Frais">
+    <End Role="Frais" Type="Self.Frais" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payes" Type="Self.Payes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Frais">
+        <PropertyRef Name="NumFrais" />
+      </Principal>
+      <Dependent Role="Payes">
+        <PropertyRef Name="NumFrais" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payes_Mois">
+    <End Role="Mois" Type="Self.Mois" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payes" Type="Self.Payes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mois">
+        <PropertyRef Name="CodeMois" />
+      </Principal>
+      <Dependent Role="Payes">
+        <PropertyRef Name="CodeMois" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Recus_Eleves">
+    <End Role="Eleves" Type="Self.Eleves" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Recus" Type="Self.Recus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleves">
+        <PropertyRef Name="MatriculeEl" />
+      </Principal>
+      <Dependent Role="Recus">
+        <PropertyRef Name="MatriculeEl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DefenseTimoModelStoreContainer">
+    <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Eleves" EntityType="Self.Eleves" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Frais" EntityType="Self.Frais" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Mois" EntityType="Self.Mois" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payes" EntityType="Self.Payes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recus" EntityType="Self.Recus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Eleves_Classes" Association="Self.FK_Eleves_Classes">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="Eleves" EntitySet="Eleves" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payes_Eleves" Association="Self.FK_Payes_Eleves">
+      <End Role="Eleves" EntitySet="Eleves" />
+      <End Role="Payes" EntitySet="Payes" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Payes_Frais" Association="Self.Fk_Payes_Frais">
+      <End Role="Frais" EntitySet="Frais" />
+      <End Role="Payes" EntitySet="Payes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payes_Mois" Association="Self.FK_Payes_Mois">
+      <End Role="Mois" EntitySet="Mois" />
+      <End Role="Payes" EntitySet="Payes" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Recus_Eleves" Association="Self.Fk_Recus_Eleves">
+      <End Role="Eleves" EntitySet="Eleves" />
+      <End Role="Recus" EntitySet="Recus" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DefenseTimoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="CodeClasse" />
+    </Key>
+    <Property Name="CodeClasse" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Classe" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Eleves" Relationship="Self.FK_Eleves_Classes" FromRole="Classes" ToRole="Eleves" />
+  </EntityType>
+  <EntityType Name="Eleve">
+    <Key>
+      <PropertyRef Name="MatriculeEl" />
+    </Key>
+    <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PostNom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Prenom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CodeClasse" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="DateNaissance" Type="DateTime" Precision="3" />
+    <Property Name="Sexe" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Class" Relationship="Self.FK_Eleves_Classes" FromRole="Eleves" ToRole="Classes" />
+    <NavigationProperty Name="Payes" Relationship="Self.FK_Payes_Eleves" FromRole="Eleves" ToRole="Payes" />
+    <NavigationProperty Name="Recus" Relationship="Self.Fk_Recus_Eleves" FromRole="Eleves" ToRole="Recus" />
+  </EntityType>
+  <EntityType Name="Frai">
+    <Key>
+      <PropertyRef Name="NumFrais" />
+    </Key>
+    <Property Name="NumFrais" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NomFrais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Payes" Relationship="Self.Fk_Payes_Frais" FromRole="Frais" ToRole="Payes" />
+  </EntityType>
+  <EntityType Name="Mois">
+    <Key>
+      <PropertyRef Name="CodeMois" />
+    </Key>
+    <Property Name="CodeMois" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LibelleMois" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Payes" Relationship="Self.FK_Payes_Mois" FromRole="Mois" ToRole="Payes" />
+  </EntityType>
+  <EntityType Name="Paye">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="NumFrais" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="Montant" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DatePaye" Type="DateTime" Precision="3" />
+    <Property Name="CodeMois" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Eleve" Relationship="Self.FK_Payes_Eleves" FromRole="Payes" ToRole="Eleves" />
+    <NavigationProperty Name="Frai" Relationship="Self.Fk_Payes_Frais" FromRole="Payes" ToRole="Frais" />
+    <NavigationProperty Name="Mois1" Relationship="Self.FK_Payes_Mois" FromRole="Payes" ToRole="Mois" />
+  </EntityType>
+  <EntityType Name="Recu">
+    <Key>
+      <PropertyRef Name="NumRecu" />
+    </Key>
+    <Property Name="NumRecu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Motif" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DateRecu" Type="DateTime" Precision="3" />
+    <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Eleve" Relationship="Self.Fk_Recus_Eleves" FromRole="Recus" ToRole="Eleves" />
+  </EntityType>
+  <EntityType Name="Utilisateur">
+    <Key>
+      <PropertyRef Name="Identifiant" />
+    </Key>
+    <Property Name="Identifiant" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Mdp" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ViewLignePayement">
+    <Key>
+      <PropertyRef Name="MatriculeEl" />
+    </Key>
+    <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PostNom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Prenom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Classe" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="DatePaye" Type="DateTime" Precision="3" />
+    <Property Name="Montant" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LibelleMois" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ViewTotalMoisParEleveTou">
+    <Key>
+      <PropertyRef Name="MatriculeEl" />
+    </Key>
+    <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CodeClasse" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="ToTal" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="ViewTotalParEleve">
+    <Key>
+      <PropertyRef Name="MatriculeEl" />
+    </Key>
+    <Property Name="MatriculeEl" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ToTal" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <Association Name="FK_Eleves_Classes">
+    <End Role="Classes" Type="Self.Class" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Eleves" Type="Self.Eleve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="CodeClasse" />
+      </Principal>
+      <Dependent Role="Eleves">
+        <PropertyRef Name="CodeClasse" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payes_Eleves">
+    <End Role="Eleves" Type="Self.Eleve" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payes" Type="Self.Paye" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleves">
+        <PropertyRef Name="MatriculeEl" />
+      </Principal>
+      <Dependent Role="Payes">
+        <PropertyRef Name="MatriculeEl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Recus_Eleves">
+    <End Role="Eleves" Type="Self.Eleve" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Recus" Type="Self.Recu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleves">
+        <PropertyRef Name="MatriculeEl" />
+      </Principal>
+      <Dependent Role="Recus">
+        <PropertyRef Name="MatriculeEl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Payes_Frais">
+    <End Role="Frais" Type="Self.Frai" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payes" Type="Self.Paye" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Frais">
+        <PropertyRef Name="NumFrais" />
+      </Principal>
+      <Dependent Role="Payes">
+        <PropertyRef Name="NumFrais" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Payes_Mois">
+    <End Role="Mois" Type="Self.Mois" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Payes" Type="Self.Paye" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mois">
+        <PropertyRef Name="CodeMois" />
+      </Principal>
+      <Dependent Role="Payes">
+        <PropertyRef Name="CodeMois" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DefenseTimoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Classes" EntityType="Self.Class" />
+    <EntitySet Name="Eleves" EntityType="Self.Eleve" />
+    <EntitySet Name="Frais" EntityType="Self.Frai" />
+    <EntitySet Name="Mois" EntityType="Self.Mois" />
+    <EntitySet Name="Payes" EntityType="Self.Paye" />
+    <EntitySet Name="Recus" EntityType="Self.Recu" />
+    <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateur" />
+    <EntitySet Name="ViewLignePayements" EntityType="Self.ViewLignePayement" />
+    <EntitySet Name="ViewTotalMoisParEleveTous" EntityType="Self.ViewTotalMoisParEleveTou" />
+    <EntitySet Name="ViewTotalParEleves" EntityType="Self.ViewTotalParEleve" />
+    <AssociationSet Name="FK_Eleves_Classes" Association="Self.FK_Eleves_Classes">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="Eleves" EntitySet="Eleves" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payes_Eleves" Association="Self.FK_Payes_Eleves">
+      <End Role="Eleves" EntitySet="Eleves" />
+      <End Role="Payes" EntitySet="Payes" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Recus_Eleves" Association="Self.Fk_Recus_Eleves">
+      <End Role="Eleves" EntitySet="Eleves" />
+      <End Role="Recus" EntitySet="Recus" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Payes_Frais" Association="Self.Fk_Payes_Frais">
+      <End Role="Frais" EntitySet="Frais" />
+      <End Role="Payes" EntitySet="Payes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Payes_Mois" Association="Self.FK_Payes_Mois">
+      <End Role="Mois" EntitySet="Mois" />
+      <End Role="Payes" EntitySet="Payes" />
+    </AssociationSet>
+    <FunctionImport Name="ProcLignePayement" ReturnType="Collection(DefenseTimoModel.ProcLignePayement_Result)" />
+    <FunctionImport Name="ProcTotalMoisParEleveTous" ReturnType="Collection(DefenseTimoModel.ProcTotalMoisParEleveTous_Result)" />
+    <FunctionImport Name="ProcNumeroRecu" ReturnType="Collection(Int32)" />
+  </EntityContainer>
+  <ComplexType Name="ProcLignePayement_Result">
+    <Property Type="String" Name="MatriculeEl" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Nom" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="PostNom" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Prenom" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Classe" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="DatePaye" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="Montant" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="LibelleMois" Nullable="true" MaxLength="8" />
+  </ComplexType>
+  <ComplexType Name="ProcTotalMoisParEleveTous_Result">
+    <Property Type="String" Name="MatriculeEl" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Nom" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="CodeClasse" Nullable="true" MaxLength="5" />
+    <Property Type="Decimal" Name="ToTal" Nullable="true" Precision="38" Scale="2" />
+  </ComplexType>
+</Schema>

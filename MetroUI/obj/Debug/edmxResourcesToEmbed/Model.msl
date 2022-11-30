@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DefenseTimoModelStoreContainer" CdmEntityContainer="DefenseTimoEntities">
+    <EntitySetMapping Name="Classes">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Class">
+        <MappingFragment StoreEntitySet="Classes">
+          <ScalarProperty Name="CodeClasse" ColumnName="CodeClasse" />
+          <ScalarProperty Name="Classe" ColumnName="Classe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Eleves">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Eleve">
+        <MappingFragment StoreEntitySet="Eleves">
+          <ScalarProperty Name="MatriculeEl" ColumnName="MatriculeEl" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="PostNom" ColumnName="PostNom" />
+          <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+          <ScalarProperty Name="CodeClasse" ColumnName="CodeClasse" />
+          <ScalarProperty Name="DateNaissance" ColumnName="DateNaissance" />
+          <ScalarProperty Name="Sexe" ColumnName="Sexe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Frais">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Frai">
+        <MappingFragment StoreEntitySet="Frais">
+          <ScalarProperty Name="NumFrais" ColumnName="NumFrais" />
+          <ScalarProperty Name="NomFrais" ColumnName="NomFrais" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mois">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Mois">
+        <MappingFragment StoreEntitySet="Mois">
+          <ScalarProperty Name="CodeMois" ColumnName="CodeMois" />
+          <ScalarProperty Name="LibelleMois" ColumnName="LibelleMois" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payes">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Paye">
+        <MappingFragment StoreEntitySet="Payes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MatriculeEl" ColumnName="MatriculeEl" />
+          <ScalarProperty Name="NumFrais" ColumnName="NumFrais" />
+          <ScalarProperty Name="Montant" ColumnName="Montant" />
+          <ScalarProperty Name="DatePaye" ColumnName="DatePaye" />
+          <ScalarProperty Name="CodeMois" ColumnName="CodeMois" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recus">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Recu">
+        <MappingFragment StoreEntitySet="Recus">
+          <ScalarProperty Name="NumRecu" ColumnName="NumRecu" />
+          <ScalarProperty Name="Motif" ColumnName="Motif" />
+          <ScalarProperty Name="DateRecu" ColumnName="DateRecu" />
+          <ScalarProperty Name="MatriculeEl" ColumnName="MatriculeEl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Utilisateurs">
+      <EntityTypeMapping TypeName="DefenseTimoModel.Utilisateur">
+        <MappingFragment StoreEntitySet="Utilisateurs">
+          <ScalarProperty Name="Identifiant" ColumnName="Identifiant" />
+          <ScalarProperty Name="Mdp" ColumnName="Mdp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

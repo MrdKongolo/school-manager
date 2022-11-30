@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a8102af4f2224fe8866af4ac3db2c45c" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="DefenseTimoModel.Class" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.Eleve" Width="1.5" PointX="2.625" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.Frai" Width="1.5" PointX="6" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.Mois" Width="1.5" PointX="2.625" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.Paye" Width="1.5" PointX="4.375" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.Recu" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.Utilisateur" Width="1.5" PointX="0.875" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.ViewLignePayement" Width="1.5" PointX="7.625" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.ViewTotalMoisParEleveTou" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DefenseTimoModel.ViewTotalParEleve" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="DefenseTimoModel.FK_Eleves_Classes" ManuallyRouted="false" />
+        <AssociationConnector Association="DefenseTimoModel.FK_Payes_Eleves" ManuallyRouted="false" />
+        <AssociationConnector Association="DefenseTimoModel.Fk_Recus_Eleves" ManuallyRouted="false" />
+        <AssociationConnector Association="DefenseTimoModel.Fk_Payes_Frais" ManuallyRouted="false" />
+        <AssociationConnector Association="DefenseTimoModel.FK_Payes_Mois" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
